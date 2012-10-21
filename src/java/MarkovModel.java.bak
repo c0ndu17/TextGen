@@ -1,0 +1,57 @@
+
+public class MarkovModel{
+	private int OrderK=0;
+	private ST<String, Integer> MappedSubstring = new ST<String, Integer>();
+
+	MarkovModel(String text, int k){      // create a Markov model of order k from given tex
+	 	String kgram;
+		try{
+			if(k<0) throw new Exception("This is not a valid order!!! ("+k +")");
+			OrderK = k;
+		}
+		catch(Exception exc){ 
+			System.out.println(exc.getMessage());
+		}
+		int j=0;
+		for(int i=0; i <= text.length(); i++){
+			if(i<text.length()-this.order()){
+				kgram = text.substring(i, i+this.order());
+				System.out.println(kgram);
+			}
+			else{
+				
+				kgram = text.substring(i, text.length())+text.substring(0,j++);	
+				System.out.println(kgram);
+			}	
+		}
+	}
+
+	int order(){ 
+		return OrderK;                      // order k of Markov model
+ 	}
+
+   	int freq(String kgram){            // number of occurrences of kgram in text
+              	try{
+			if(kgram.length()!=OrderK) throw new Exception("The Substring is not of the correct length. ("+kgram.length() +" != "+ OrderK +")");
+			if(MappedSubstring.contains(kgram))
+				return MappedSubstring.get(kgram);	                      // (throw an exception if kgram is not of length k)
+			else return 0;
+ 		}
+		catch(Exception exc){
+			System.out.println(exc.getMessage());
+		}
+		return 0;
+	}
+
+   	int freq(String kgram, char c){    // number of times that character c follows kgram
+                         return 0;          	  // (throw an exception if kgram is not of length k)
+	}
+
+  	char rand(String kgram){            // random character following given kgram
+        	return 'c';                             // (throw an exception if kgram is not of length k
+  	}                                   // or if no such kgram)
+	
+	public static void main(String[] args){
+		MarkovModel N = new MarkovModel(args[0], 3);
+	}	
+}
